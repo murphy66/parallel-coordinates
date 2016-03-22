@@ -624,13 +624,18 @@ function getNullPosition() {
 };
 
 function single_path(d, ctx) {
-	d3.entries(__.dimensions).forEach(function(p, i) {  //p isn't really p
-		if (i == 0) {
-			ctx.moveTo(position(p.key), typeof d[p.key] =='undefined' ? getNullPosition() : __.dimensions[p.key].yscale(d[p.key]));
-		} else {
-			ctx.lineTo(position(p.key), typeof d[p.key] =='undefined' ? getNullPosition() : __.dimensions[p.key].yscale(d[p.key]));
-		}
-	});
+  var sortedKeys = d3.keys(__.dimensions).sort(function(a, b) {
+    return __.dimensions[a].index - __.dimensions[b].index;
+  });
+
+  sortedKeys.forEach(function(k, i) {
+    var x = position(k);
+    if (i == 0) {
+      ctx.moveTo(x, typeof d[k] =='undefined' ? getNullPosition() : __.dimensions[k].yscale(d[k]));
+    } else {
+      ctx.lineTo(x, typeof d[k] =='undefined' ? getNullPosition() : __.dimensions[k].yscale(d[k]));
+    }
+  });
 };
 
 function path_brushed(d, i) {
