@@ -8,7 +8,7 @@ function getRange() {
 	return [h()+1, 1];
 };
 
-pc.autoscale = function() {
+pc.autoscale = function(force) {
   // yscale
   var defaultScales = {
     "date": function(k) {
@@ -69,7 +69,7 @@ pc.autoscale = function() {
   };
 
   d3.keys(__.dimensions).forEach(function(k) {
-    if (!__.dimensions[k].yscale){
+    if (force || !__.dimensions[k].yscale){
       __.dimensions[k].yscale = defaultScales[__.dimensions[k].type](k);
     }
   });

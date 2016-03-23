@@ -22,7 +22,7 @@ pc.resize = function() {
   if (flags.brushable) pc.brushReset();
 
   // scales
-  pc.autoscale();
+  pc.autoscale(true);
 
   // axes, destroys old brushes.
   if (g) pc.createAxes();

@@ -84,10 +84,8 @@ function single_path(d, ctx) {
     var x = position(dkey);
     var y = typeof d[dkey] =='undefined' ? getNullPosition() : __.dimensions[dkey].yscale(d[dkey])
     if (i == 0) {
-      console.log("moveTo x: " + x + ", y: " + y);
       ctx.moveTo(x, y);
     } else {
-      console.log("lineTo x: " + x + ", y: " + y);
       ctx.lineTo(x, y);
     }
   });

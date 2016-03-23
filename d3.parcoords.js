@@ -181,7 +181,7 @@ function getRange() {
 	return [h()+1, 1];
 };
 
-pc.autoscale = function() {
+pc.autoscale = function(force) {
   // yscale
   var defaultScales = {
     "date": function(k) {
@@ -242,7 +242,7 @@ pc.autoscale = function() {
   };
 
   d3.keys(__.dimensions).forEach(function(k) {
-    if (!__.dimensions[k].yscale){
+    if (force || !__.dimensions[k].yscale){
       __.dimensions[k].yscale = defaultScales[__.dimensions[k].type](k);
     }
   });
@@ -630,10 +630,8 @@ function single_path(d, ctx) {
     var x = position(dkey);
     var y = typeof d[dkey] =='undefined' ? getNullPosition() : __.dimensions[dkey].yscale(d[dkey])
     if (i == 0) {
-      console.log("moveTo x: " + x + ", y: " + y);
       ctx.moveTo(x, y);
     } else {
-      console.log("lineTo x: " + x + ", y: " + y);
       ctx.lineTo(x, y);
     }
   });
@@ -2222,7 +2220,7 @@ pc.resize = function() {
   if (flags.brushable) pc.brushReset();
 
   // scales
-  pc.autoscale();
+  pc.autoscale(true);
 
   // axes, destroys old brushes.
   if (g) pc.createAxes();
