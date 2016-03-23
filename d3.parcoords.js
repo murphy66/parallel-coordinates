@@ -495,7 +495,7 @@ function compute_cluster_centroids(d) {
 function compute_centroids(row) {
 	var centroids = [];
 
-	var p = d3.keys(__.dimensions);
+	var p = pc.getOrderedDimensionKeys();
 	var cols = p.length;
 	var a = 0.5;			// center between axes
 	for (var i = 0; i < cols; ++i) {
@@ -624,13 +624,19 @@ function getNullPosition() {
 };
 
 function single_path(d, ctx) {
-	d3.entries(__.dimensions).forEach(function(p, i) {  //p isn't really p
-		if (i == 0) {
-			ctx.moveTo(position(p.key), typeof d[p.key] =='undefined' ? getNullPosition() : __.dimensions[p.key].yscale(d[p.key]));
-		} else {
-			ctx.lineTo(position(p.key), typeof d[p.key] =='undefined' ? getNullPosition() : __.dimensions[p.key].yscale(d[p.key]));
-		}
-	});
+  var orderedDimension = pc.getOrderedDimensionKeys();
+
+  orderedDimension.forEach(function(dkey, i) {
+    var x = position(dkey);
+    var y = typeof d[dkey] =='undefined' ? getNullPosition() : __.dimensions[dkey].yscale(d[dkey])
+    if (i == 0) {
+      console.log("moveTo x: " + x + ", y: " + y);
+      ctx.moveTo(x, y);
+    } else {
+      console.log("lineTo x: " + x + ", y: " + y);
+      ctx.lineTo(x, y);
+    }
+  });
 };
 
 function path_brushed(d, i) {

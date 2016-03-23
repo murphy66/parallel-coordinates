@@ -35,7 +35,7 @@ function compute_cluster_centroids(d) {
 function compute_centroids(row) {
 	var centroids = [];
 
-	var p = d3.keys(__.dimensions);
+	var p = pc.getOrderedDimensionKeys();
 	var cols = p.length;
 	var a = 0.5;			// center between axes
 	for (var i = 0; i < cols; ++i) {
